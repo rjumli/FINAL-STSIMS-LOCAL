@@ -19,9 +19,9 @@ class UserProfile extends Model
         'user_id'
     ];
 
-    public function agency()
+    public function profileable()
     {
-        return $this->belongsTo('App\Models\ListAgency', 'agency_id', 'id');
+        return $this->morphTo();
     }
 
     public function setFirstnameAttribute($value)

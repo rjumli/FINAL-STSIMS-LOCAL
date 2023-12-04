@@ -1,8 +1,13 @@
-<template>
-
+<template lang="">
+    <div>
+        
+    </div>
 </template>
 <script>
 export default {
-    props: ['auth']
+    
 }
 </script>
+<style lang="">
+    
+</style>

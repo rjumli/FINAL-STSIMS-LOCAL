@@ -36,9 +36,13 @@ class AuthenticatedSessionController extends Controller
         if(\Auth::user()->is_active){
             return redirect()->intended(RouteServiceProvider::HOME);
         }else{
-            return back()->withErrors([
-                'email' => 'Account Locked, Please contact administrator.',
-            ])->onlyInput('email');
+            if(\Auth::user()->role == 'Administrator'){
+                return redirect()->intended('/installation');
+            }else{
+                return back()->withErrors([
+                    'email' => 'Account Locked, Please contact administrator.',
+                ])->onlyInput('email');
+            }
         }
     }
 

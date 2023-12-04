@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\Sync\LocationService;
 
 class SyncController extends Controller
 {
-    public $link, $api;
+    public $location;
 
-    public function __construct()
+    public function __construct(LocationService $location)
     {
-        $this->link = config('app.api_link');
-        $this->api = config('app.api_key');
+        $this->location = $location;
+    }
+
+    public function locations($type,$category){
+        return $this->location->fetch($type,$category);
     }
 }

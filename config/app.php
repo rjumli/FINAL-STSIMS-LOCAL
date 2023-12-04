@@ -17,6 +17,9 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'agency' => env('AGENCY_ID'),
+    'api_link' => env('API_LINK'),
+    'api_key' => env('API_KEY'),
 
     /*
     |--------------------------------------------------------------------------

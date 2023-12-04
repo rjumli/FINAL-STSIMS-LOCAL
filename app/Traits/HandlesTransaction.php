@@ -2,9 +2,6 @@
 
 namespace App\Traits;
 
-/**
- * Class HandlesTransaction.
- */
 trait HandlesTransaction
 {
     public static function handleTransaction($callback){
