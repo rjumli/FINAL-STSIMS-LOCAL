@@ -12,12 +12,17 @@ class LocationService
 {
     use HandlesCurl;
 
+    public function fetchCount(){
+        $response = $this->handleCurl('locations','count');
+        return json_decode($response);
+    }
+
     public function fetch($type,$category){
         set_time_limit(0);
         $arrays = ['regions','provinces','municipalities','barangays'];
         try {
             foreach($arrays as $array){
-                $response = $this->handleCurl('location',$array);
+                $response = $this->handleCurl('locations',$array);
                 $locations = json_decode($response);
                 
                 foreach($locations as $location){

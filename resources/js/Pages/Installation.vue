@@ -13,21 +13,21 @@
                 </h4>
             </div>
         </div>
-        <div class="mb-4" style="width: 700px;">
+        <div class="mb-4" style="width: 900px;">
             <div class="table-responsive">
                 <table class="table table-nowrap table-centered table-hover mb-0 align-middle">
                     <tbody>
                         <tr>
                             <td style="width: 45px;">
                                 <div class="avatar-sm">
-                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-light fs-18">
                                         <i class="bx bx-map"></i>
                                     </span>
                                 </div>
                             </td>
                             <td>
                                 <h5 class="font-size-13 mb-0"><a  class="text-dark">Philippine Standard Geographic Code</a></h5>
-                                <small  v-for="(address,name,index) in locations" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{address.count }}</small>
+                                <small  v-for="(address,name,index) in counts.locations" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{address }}</small>
                             </td>
                             <td>
                                 <div class="text-center" v-if="!download_location">
@@ -39,7 +39,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>
                                 <div class="avatar-sm">
                                     <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
@@ -49,40 +49,40 @@
                             </td>
                             <td>
                                 <h5 class="font-size-14 mb-0"><a href="javascript: void(0);" class="text-dark">Lists of tables</a></h5>
-                                <small  v-for="(list,name,index) in lists" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{list.count }} </small>
+                                <small  v-for="(list,name,index) in counts.lists" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{list }} </small>
                             </td>
                             <td>
-                                <div class="text-center" v-if="!downloaded2">
-                                    <button v-if="l" :disabled="low" @click="downloadLists" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
+                                <div class="text-center" v-if="!download_list">
+                                    <button v-if="status_list" :disabled="low" @click="downloadLists" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
                                     <button v-else type="button" class="btn btn-sm btn-label btn-warning"><i class="bx bx-loader-circle bx-spin label-icon"></i> Downloading </button>
                                 </div>
                                 <div class="text-center" v-else>
                                     <span class="badge bg-success">Downloaded</span>
                                 </div>
                             </td>
-                        </tr> -->
-                        <!-- <tr>
+                        </tr>
+                        <tr>
                             <td>
                                 <div class="avatar-sm">
-                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-light fs-18">
                                         <i class="bx bxs-school"></i>
                                     </span>
                                 </div>
                             </td>
                             <td>
                                 <h5 class="font-size-14 mb-0"><a href="javascript: void(0);" class="text-dark">Lists of Schools</a></h5>
-                                <small  v-for="(list,name,index) in lists" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{list.count }} </small>
+                                <small  v-for="(list,name,index) in counts.schools" v-bind:key="index" ><span v-if="index != 0">,</span> {{name}} : {{list }} </small>
                             </td>
                             <td>
-                                <div class="text-center" v-if="!downloaded3">
-                                    <button v-if="s" :disabled="low" @click="downloadSchools" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
+                                <div class="text-center" v-if="!download_school">
+                                    <button v-if="status_school" :disabled="low" @click="downloadSchools" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
                                     <button v-else type="button" class="btn btn-sm btn-label btn-warning"><i class="bx bx-loader-circle bx-spin label-icon"></i> Downloading </button>
                                 </div>
                                 <div class="text-center" v-else>
                                     <span class="badge bg-success">Downloaded</span>
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
                     
                     </tbody>
                 </table>
@@ -104,25 +104,73 @@ export default {
     data(){
         return {
             currentUrl: window.location.origin,
-            locations : [],
+            counts: [],
             status_location: true,
             download_location: false,
-            isLoading: false
+            status_school: true,
+            download_school: false,
+            status_list: true,
+            download_list: false,
+            isLoading: false,
+            show: false
         }
     },
     created(){
-        this.fetchAddress();
+        this.fetchCount();
     },
     methods: {
-        fetchAddress() {
+        fetchCount() {
             this.isLoading = true;
-            axios.get(this.currentUrl + '/sync/locations/check/all')
+            axios.get(this.currentUrl + '/sync/counts')
             .then(response => {
                 this.isLoading = false;
-                this.locations = response.data;
+                this.counts = response.data;
             })
             .catch(err => console.log(err));
         },
+        downloadRegion() {
+            this.isLoading = true; 
+            this.r = false;
+            let category = 'Regions';
+        
+            axios.get(this.currentUrl + '/sync/addresses/download/all')
+            .then(response => {
+                this.isLoading = false;
+                this.low = false;
+                this.status_location = true;
+                this.download_location = true;
+            })
+            .catch(err => console.log(err));
+        },
+        downloadLists() {
+            this.l = false;
+            axios.get(this.currentUrl + '/sync/lists/download/all')
+            .then(response => {
+                this.status_list = true;
+                this.download_list = true;
+
+            })
+            .catch(err => console.log(err));
+        },
+        downloadSchools(category, index) {
+            this.s = false;
+            axios.get(this.currentUrl + '/sync/schools/download/local')
+            .then(response => {
+                this.status_school = true;
+                this.show = true;
+                this.download_school = true;
+            })
+            .catch(err => console.log(err));
+        },
+        proceed(){
+            this.form.id = this.$page.props.auth.data.id;
+            this.form.put('/staffs/update',{
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    this.$inertia.get('/home');
+                }
+            });
+        }
     }
 }
 </script>
