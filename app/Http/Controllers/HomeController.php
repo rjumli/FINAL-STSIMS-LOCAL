@@ -16,7 +16,7 @@ class HomeController extends Controller
             return redirect()->intended(RouteServiceProvider::HOME);
         }else{
             if(\Auth::user()->role == 'Administrator'){
-                return redirect()->intended('/installation');
+                return inertia('Installation');
             }
         }
     }

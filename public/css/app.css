@@ -83319,7 +83319,7 @@ File: Custom Css File
 }
 
 .multiselect {
-  border-color: var(--vz-border-color) !important;
+  border-color: #ccd4db !important;
   background: var(--vz-input-bg-custom) !important;
 }
 .multiselect .multiselect-option.is-disabled {

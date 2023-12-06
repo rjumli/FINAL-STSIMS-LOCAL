@@ -6,14 +6,16 @@
            
         </div>
         <div class="file-manager-content w-100 p-4 pb-0" style="height: calc(100vh - 180px)">
-           
+            <Lists :regions="regions"/>
         </div>
     </div>
 </template>
 <script>
+import Lists from './Lists.vue';
 import PageHeader from "@/Shared/Components/PageHeader.vue";
 export default {
-    components : { PageHeader },
+    props: ['regions'],
+    components : { PageHeader, Lists },
     data() {
         return {
             title: "List of Schools",

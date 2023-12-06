@@ -16,6 +16,9 @@
         <div class="mb-4" style="width: 850px;" v-if="status == 'Unauthorized'">
             <div class="alert alert-danger mb-xl-0" role="alert"><b>Unauthorized</b>. Please contact Administrator, Thanks. </div>
         </div>
+        <div class="mb-4" style="width: 850px;" v-else-if="status == 404">
+            <div class="alert alert-danger mb-xl-0" role="alert"><b>API not found</b>. Please contact Administrator, Thanks. </div>
+        </div>
         <div class="mb-4" style="width: 900px;">
             <div class="table-responsive">
                 <table class="table table-nowrap table-centered table-hover mb-0 align-middle">
@@ -147,7 +150,11 @@ export default {
             .then(response => {
                 this.status = response.data.status;
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                if(err.response.status == 404){
+                    this.status = err.response.status;
+                }
+            });
         },
         fetchCount() {
             this.isLoading = true;

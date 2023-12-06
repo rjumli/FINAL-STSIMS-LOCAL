@@ -120,7 +120,8 @@ File: Custom Css File
 
 // multiselect-option is-pointed
 .multiselect {
-  border-color: var(--#{$prefix}border-color) !important;
+  // border-color: var(--#{$prefix}border-color) !important;
+  border-color: #ccd4db !important;
   background: $input-bg !important;
 
   .multiselect-option {
