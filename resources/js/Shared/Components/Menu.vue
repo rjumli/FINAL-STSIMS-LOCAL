@@ -18,7 +18,7 @@
             <!-- <simplebar id="scrollbar" class="h-100" ref="scrollbar"> -->
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="nav-item">
-                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Home') }" href="/home">
+                    <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Dashboard') }" href="/home">
                         <i class='ri ri-apps-line '></i>
                         <span data-key="t-dashboards">Home</span>
                     </Link>
@@ -29,30 +29,30 @@
                         <span data-key="t-students">Schools</span>
                     </Link>
                 </li>   
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Courses') }" href="/courses">
                         <i class='bx bxs-graduation' ></i>
                         <span data-key="t-students">Courses</span>
                     </Link>
-                </li> 
-                <li class="nav-item">
+                </li>  -->
+                <!-- <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Qualifiers') }" href="/qualifiers">
                         <i class='ri-user-add-fill'></i>
                         <span data-key="t-students">Qualifiers</span>
                     </Link>
-                </li>    
-                <li class="nav-item">
+                </li>     -->
+                <!-- <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Scholars') }" href="/scholars">
                         <i class='ri-team-fill'></i>
                         <span data-key="t-students">Scholars</span>
                     </Link>
-                </li>    
-                <li class="nav-item">
+                </li>     -->
+                <!-- <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Staffs') }" href="/staffs">
                         <i class='bx bx-user-circle' ></i>
                         <span data-key="t-students">Staffs</span>
                     </Link>
-                </li>  
+                </li>   -->
             </ul>
             <!-- </simplebar> -->
             <div class="sidebar-background"></div>

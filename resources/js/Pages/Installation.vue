@@ -3,15 +3,18 @@
     <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
         <div class="text-center mb-2 text-muted">
             <a to="/" class="d-block auth-logo">
-                <img src="/imagess/logo-sm.png" alt="" height="20" class="auth-logo-dark mx-auto" />
+                <img src="/imagess/logo-sm.png" alt="" height="50" class="auth-logo-dark mx-auto" />
             </a>
-            <p class="font-size-11 mt-3">Department of Science & Technology <br> Scholarship Information Management System</p>
+            <p class="font-size-11 mt-3">Science Education Institute <br> Scholarship Information Management System</p>
             <div id="v-2-2-3">
                 <h4 class="mb-4">
                     <span class="text-primary">STSIMS v1.0.0</span>
                     <small class="text-muted font-size-14"> - Installation </small>
                 </h4>
             </div>
+        </div>
+        <div class="mb-4" style="width: 850px;" v-if="status == 'Unauthorized'">
+            <div class="alert alert-danger mb-xl-0" role="alert"><b>Unauthorized</b>. Please contact Administrator, Thanks. </div>
         </div>
         <div class="mb-4" style="width: 900px;">
             <div class="table-responsive">
@@ -31,7 +34,10 @@
                             </td>
                             <td>
                                 <div class="text-center" v-if="!download_location">
-                                    <button v-if="status_location" @click="downloadRegion" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
+                                    <button v-if="status_location" @click="downloadRegion" type="button" class="btn btn-sm btn-label" :class="(fail_location) ? 'btn-danger' : 'btn-primary'">
+                                        <span v-if="!fail_location"><i class="bx bx-download label-icon"></i> Download</span>
+                                        <span v-else><i class="bx bx-download label-icon"></i> Try again</span>
+                                    </button>
                                     <button v-else type="button" class="btn btn-sm btn-label btn-warning"><i class="bx bx-loader-circle bx-spin label-icon"></i> Downloading </button>
                                 </div>
                                 <div class="text-center" v-else>
@@ -42,7 +48,7 @@
                         <tr>
                             <td>
                                 <div class="avatar-sm">
-                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-24">
+                                    <span class="avatar-title rounded-circle bg-soft bg-primary text-light fs-18">
                                         <i class="bx bx-list-ul"></i>
                                     </span>
                                 </div>
@@ -53,7 +59,10 @@
                             </td>
                             <td>
                                 <div class="text-center" v-if="!download_list">
-                                    <button v-if="status_list" :disabled="low" @click="downloadLists" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
+                                     <button v-if="status_list" @click="downloadLists" :disabled="dis_list" type="button" class="btn btn-sm btn-label" :class="(fail_list) ? 'btn-danger' : 'btn-primary'">
+                                        <span v-if="!fail_list"><i class="bx bx-download label-icon"></i> Download</span>
+                                        <span v-else><i class="bx bx-download label-icon"></i> Try again</span>
+                                    </button>
                                     <button v-else type="button" class="btn btn-sm btn-label btn-warning"><i class="bx bx-loader-circle bx-spin label-icon"></i> Downloading </button>
                                 </div>
                                 <div class="text-center" v-else>
@@ -75,7 +84,10 @@
                             </td>
                             <td>
                                 <div class="text-center" v-if="!download_school">
-                                    <button v-if="status_school" :disabled="low" @click="downloadSchools" type="button" class="btn btn-sm btn-label btn-primary"><i class="bx bx-download label-icon"></i> Download </button>
+                                    <button v-if="status_school" @click="downloadSchools" :disabled="dis_school" type="button" class="btn btn-sm btn-label" :class="(fail_school) ? 'btn-danger' : 'btn-primary'">
+                                        <span v-if="!fail_school"><i class="bx bx-download label-icon"></i> Download</span>
+                                        <span v-else><i class="bx bx-download label-icon"></i> Try again</span>
+                                    </button>
                                     <button v-else type="button" class="btn btn-sm btn-label btn-warning"><i class="bx bx-loader-circle bx-spin label-icon"></i> Downloading </button>
                                 </div>
                                 <div class="text-center" v-else>
@@ -107,18 +119,36 @@ export default {
             counts: [],
             status_location: true,
             download_location: false,
+            fail_location: false,
             status_school: true,
             download_school: false,
+            fail_school: false,
             status_list: true,
             download_list: false,
             isLoading: false,
-            show: false
+            dis_list: true,
+            dis_school: true,
+            show: false,
+            status: '',
+            form: this.$inertia.form({
+                id: '',
+                is_active: 1,
+                editable: true
+            }),
         }
     },
     created(){
         this.fetchCount();
+        this.checkApi();
     },
     methods: {
+        checkApi() {
+            axios.get(this.currentUrl + '/sync/check')
+            .then(response => {
+                this.status = response.data.status;
+            })
+            .catch(err => console.log(err));
+        },
         fetchCount() {
             this.isLoading = true;
             axios.get(this.currentUrl + '/sync/counts')
@@ -130,37 +160,48 @@ export default {
         },
         downloadRegion() {
             this.isLoading = true; 
-            this.r = false;
-            let category = 'Regions';
+            this.status_location = false;
         
-            axios.get(this.currentUrl + '/sync/addresses/download/all')
+            axios.get(this.currentUrl + '/sync/locations')
             .then(response => {
                 this.isLoading = false;
-                this.low = false;
+                this.dis_list = false;
                 this.status_location = true;
                 this.download_location = true;
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.status_location = true; 
+                this.fail_location = true;
+                console.log(err)
+            });
         },
         downloadLists() {
-            this.l = false;
-            axios.get(this.currentUrl + '/sync/lists/download/all')
+            this.status_list = false;
+            axios.get(this.currentUrl + '/sync/lists')
             .then(response => {
                 this.status_list = true;
+                this.dis_school = false;
                 this.download_list = true;
-
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.status_list = true; 
+                this.fail_list = true;
+                console.log(err);
+            });
         },
         downloadSchools(category, index) {
-            this.s = false;
-            axios.get(this.currentUrl + '/sync/schools/download/local')
+            this.status_school = false;
+            axios.get(this.currentUrl + '/sync/schools')
             .then(response => {
                 this.status_school = true;
-                this.show = true;
                 this.download_school = true;
+                this.show = true;
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.status_school = true; 
+                this.fail_school = true;
+                console.log(err);
+            });
         },
         proceed(){
             this.form.id = this.$page.props.auth.data.id;

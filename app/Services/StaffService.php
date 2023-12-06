@@ -45,7 +45,7 @@ class StaffService
         $profile = UserProfile::where('user_id',$request->id)->first();
         $profile->update($request->except('email','role','is_active','img','editable'));
         $imagePath = $this->updateAvatar($request,$data->id);
-        $data = User::with('profile.agency.region')->where('id',$request->id)->first();
+        $data = User::with('profile')->where('id',$request->id)->first();
         
        return new IndexResource($data);
     }

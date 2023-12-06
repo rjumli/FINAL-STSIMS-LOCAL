@@ -18,6 +18,10 @@ class SyncController extends Controller
         $this->location = $location;
     }
 
+    public function checkApi(){
+        return $this->location->checkConnection();
+    }
+
     public function fetchCount(){
         $array = [
             'lists' => $this->list->fetchCount(),
@@ -27,8 +31,15 @@ class SyncController extends Controller
         return $array;
     }
 
-    public function locations($type,$category){
-        return $this->location->fetch($type,$category);
+    public function locations(){
+        return $this->location->fetch();
     }
 
+    public function schools(){
+        return $this->school->fetch();
+    }
+
+    public function lists(){
+        return $this->list->fetch();
+    }
 }

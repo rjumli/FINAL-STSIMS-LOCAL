@@ -2,14 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/installation', function () {  return inertia('Installation'); });
+Route::get('/installation', [App\Http\Controllers\HomeController::class, 'installation']);
 Route::prefix('sync')->group(function(){
+    Route::get('/check', [App\Http\Controllers\SyncController::class, 'checkApi']);
     Route::get('/counts', [App\Http\Controllers\SyncController::class, 'fetchCount']);
-    Route::get('/locations/{type}/{category}', [App\Http\Controllers\SyncController::class, 'locations']);
-    // Route::get('/lists/{type}/{category}', [App\Http\Controllers\SyncController::class, 'lists']);
-    // Route::get('/schools/{type}/{category}/{agency?}', [App\Http\Controllers\SyncController::class, 'schools']);
-    // Route::get('/schools/count', [App\Http\Controllers\SyncController::class, 'schoolcount']);
-    // Route::get('/scholars', [App\Http\Controllers\SyncController::class, 'scholars']);
-    // Route::get('/qualifiers', [App\Http\Controllers\SyncController::class, 'qualifiers']);
-    // Route::get('/settings', [App\Http\Controllers\SyncController::class, 'settings']);
+    Route::get('/lists', [App\Http\Controllers\SyncController::class, 'lists']);
+    Route::get('/schools', [App\Http\Controllers\SyncController::class, 'schools']);
+    Route::get('/locations', [App\Http\Controllers\SyncController::class, 'locations']);
 });

@@ -12,6 +12,26 @@ trait HandlesCurl
         $this->api = config('app.api_key');
     }
 
+    public function handleApi(){
+        $apiUrl = $this->link.'/api/user';
+        $accessToken = $this->api;
+        $ch = curl_init($apiUrl);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $accessToken,
+        ]);
+        
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            $respone =  'Error: ' . curl_error($ch);
+        } else {
+            $response;
+        }
+        curl_close($ch);
+        return $response;
+    }
+
     public function handleCurl($name,$array){
         $url = $this->link.'/api/01101011%2001110010%2001100001%2001100100/'.$name.'/'.$array;
         $curl = curl_init();
