@@ -101,7 +101,7 @@ export default {
                 params: {
                     keyword: this.keyword,
                     region: this.region,
-                    counts: ((window.innerHeight-410)/56),
+                    counts: ((window.innerHeight-370)/56),
                     type: 'lists'
                 }
             })

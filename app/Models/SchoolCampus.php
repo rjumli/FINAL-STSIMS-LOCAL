@@ -54,6 +54,11 @@ class SchoolCampus extends Model
         return $this->hasMany('App\Models\SchoolCourse', 'school_id');
     } 
 
+    public function semesters()
+    {
+        return $this->hasMany('App\Models\SchoolSemester', 'school_id');
+    } 
+
     public function term()
     {
         return $this->belongsTo('App\Models\ListDropdown', 'term_id', 'id');
@@ -64,8 +69,23 @@ class SchoolCampus extends Model
         return $this->belongsTo('App\Models\ListDropdown', 'grading_id', 'id');
     }
 
+    public function profile()
+    {
+        return $this->morphOne('App\Models\UserProfile', 'profileable');
+    }
+
+    public function scholars()
+    {
+        return $this->hasMany('App\Models\ScholarEducation', 'school_id');
+    } 
+
+    public function gradings()
+    {
+        return $this->hasMany('App\Models\SchoolGrading', 'school_id');
+    } 
+
     public function getCampusAttribute($value){
-        return ucwords(strtolower($value));
+        return strtoupper($value);
     }
 
     public function setCampusAttribute($value){
