@@ -5,8 +5,10 @@ namespace App\Services\School;
 use Hashids\Hashids;
 use App\Models\Scholar;
 use App\Models\SchoolCampus;
-use App\Http\Resources\School\IndexResource;
+use App\Models\SchoolSemester;
 use App\Http\Resources\School\ListsResource;
+use App\Http\Resources\School\IndexResource;
+use App\Http\Resources\School\SemestersResource;
 
 class ViewService
 {
@@ -38,7 +40,7 @@ class ViewService
         $hashids = new Hashids('krad',10);
         $id = $hashids->decode($id);
         
-        $data = new IndexResource(
+        $school = new IndexResource(
             SchoolCampus::with('school')
             ->with('gradings')
             ->with('school.class','term:id,name','grading:id,name')
@@ -46,7 +48,13 @@ class ViewService
             ->with('region:region,code','province:name,code','municipality:name,code')
             ->where('id',$id[0])->first()
         );
-        return $data;
+        $semester = SchoolSemester::where('is_active',1)->where('school_id',$id[0])->first();
+   
+        $array = [
+            'school' => $school,
+            'active' => ($semester) ? new SemestersResource($semester) : ''
+        ];
+        return $array;
     }
 
     public function counts($id){
@@ -74,5 +82,24 @@ class ViewService
             ['counts' => $ongoing,'name' => 'Ongoing Scholars', 'icon' => 'ri-account-circle-line', 'color' => 'primary']
         ];
         return $array;
+    }
+
+    public static function semesters($request){
+        $id = $request->id;
+        $keyword = $request->keyword;
+        $counts = $request->counts;
+
+        $data = SemestersResource::collection(
+            SchoolSemester::query()
+            ->with('semester')
+            ->where('school_id',$id)
+            ->orderBy('year','DESC')
+            // ->orderBy('start_at','DESC')
+            ->orderBy('semester_id','DESC')
+            ->paginate($counts)
+            ->withQueryString()
+        );
+
+        return $data;
     }
 }

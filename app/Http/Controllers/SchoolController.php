@@ -26,6 +26,9 @@ class SchoolController extends Controller
             case 'lists':
                 return $this->view->fetch($request);
             break;
+            case 'semesters':
+                return $this->view->semesters($request);
+            break;
             case 'counts':
                 return $this->view->counts($request->id);
             break;
@@ -41,7 +44,7 @@ class SchoolController extends Controller
                     return $this->truncate($request);
                 break;
                 case 'semester': 
-                    return $this->semester($request);
+                    return $this->save->semester($request);
                 break;
                 case 'prospectus': 
                     return $this->save->prospectus($request);
@@ -79,9 +82,10 @@ class SchoolController extends Controller
 
     public function show($id){
         $data = $this->view->view($id);
-
+       
         return inertia('Modules/Schools/Profile/Index',[
-            'school' => $data
+            'school' => $data['school'],
+            'active' => $data['active']
         ]);
     }
 }

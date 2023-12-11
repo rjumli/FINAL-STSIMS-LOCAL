@@ -8,6 +8,9 @@
             </BCardHeader>
             <BCardBody style="height: calc(100vh - 447px)">
                 <BTabs nav-class="card-header-pills text-muted tamp" pills small>
+                    <BTab title="Semesters">
+                        <Semester :id="school.data.id" :term="school.data.term" :dropdowns="dropdowns"/>
+                    </BTab>
                     <BTab title="Gradings">
                         <Grading :id="school.data.id" :gradings="school.data.gradings"/>
                     </BTab>  
@@ -16,9 +19,6 @@
                     </BTab>
                     <BTab title="Overview">
                         
-                    </BTab>
-                    <BTab title="Semesters">
-                        <Semester :id="school.data.id" :term="school.data.term" :dropdowns="dropdowns"/>
                     </BTab>
                 </BTabs>
             </BCardBody>

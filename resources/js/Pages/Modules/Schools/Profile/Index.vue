@@ -2,7 +2,7 @@
     <Head :title="school.data.name" />
     <Top :school="school"/>
     <b-row>
-        <Sidebar :id="school.data.id"/>
+        <Sidebar :id="school.data.id" :semester="active.data"/>
         <b-col lg="8">
             <b-row>
                 <Count :school="school"/>
@@ -18,6 +18,6 @@ import Count from './Count.vue';
 import Sidebar from './Sidebar.vue';
 export default {
     components: { Top, Main, Count, Sidebar },
-    props: ['school','dropdowns']
+    props: ['school','active','dropdowns']
 }
 </script>

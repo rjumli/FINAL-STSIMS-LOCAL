@@ -32,7 +32,6 @@ class SaveService
         $request['added_by'] = \Auth::user()->id;
 
         $data = SchoolProspectus::create($request->all());
-        $data = SchoolProspectus::where('id',$data->id)->first();
         return $data;
     }
 
@@ -40,4 +39,10 @@ class SaveService
         $data = SchoolGrading::create($request->all());
         return $data;
     }
+
+    public static function semester($request){
+        $data = SchoolSemester::create(array_merge($request->all(),['is_active' => true]));
+        return $data;
+    }
+
 }
