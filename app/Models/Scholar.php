@@ -11,14 +11,17 @@ class Scholar extends Model
 
     protected $fillable = [
         'spas_id',
+        'stsims_id',
         'program_id',
         'subprogram_id',
         'category_id',
         'status_id',
         'awarded_year',
-        'is_completed',
+        'started_year',
         'is_endorsed',
-        'is_undergrad'
+        'is_undergrad',
+        'is_completed',
+        'is_synced'
     ];
 
     public function profile()
@@ -31,9 +34,9 @@ class Scholar extends Model
         return $this->hasOne('App\Models\ScholarEducation', 'scholar_id');
     } 
 
-    public function address()
+    public function addresses()
     {
-        return $this->hasOne('App\Models\ScholarAddress', 'scholar_id');
+        return $this->hasMany('App\Models\ScholarAddress', 'scholar_id');
     } 
 
     public function status()

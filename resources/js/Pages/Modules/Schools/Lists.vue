@@ -11,8 +11,8 @@
                 <span @click="refresh" class="input-group-text" v-b-tooltip.hover title="Refresh" style="cursor: pointer;"> 
                     <i class="ri-map-pin-fill text-primary search-icon"></i>
                 </span>
-                <b-button type="button" variant="primary" @click="showFilter()">
-                    <i class="ri-filter-fill align-bottom me-1"></i> Filter
+                <b-button type="button" variant="primary" @click="showCreate()">
+                    <i class="ri-add-circle-fill align-bottom me-1"></i> Create
                 </b-button>
             </div>
         </b-col>
@@ -62,15 +62,16 @@
         </table>
         <Pagination class="ms-2 me-2" v-if="meta" @fetch="fetch" :lists="lists.length" :links="links" :pagination="meta" />
     </div>
+    <Create :dropdowns="dropdowns" ref="create"/>
 </template>
 <script>
+import Create from './Modals/Create.vue';
 import Multiselect from "@vueform/multiselect";
 import "@vueform/multiselect/themes/default.css";
 import Pagination from "@/Shared/Components/Pagination.vue";
-// import Multiselect from '@suadelabs/vue3-multiselect';
 export default {
-    props: ['regions'],
-    components : { Pagination, Multiselect },
+    props: ['regions','dropdowns'],
+    components : { Pagination, Multiselect, Create },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -112,6 +113,9 @@ export default {
             })
             .catch(err => console.log(err));
         },
+        showCreate(){
+            this.$refs.create.show();
+        }
     }
 }
 </script>

@@ -3,6 +3,9 @@
 namespace App\Services\Scholar;
 
 use App\Models\Scholar;
+use App\Models\ScholarEducation;
+use App\Models\ScholarProfile;
+use App\Models\ScholarAddress;
 use App\Http\Resources\Scholar\IndexResource;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -15,7 +18,7 @@ class ViewService
 
         $data = IndexResource::collection(
             Scholar::
-            with('address.region','address.province','address.municipality','address.barangay')
+            with('addresses.region','addresses.province','addresses.municipality','addresses.barangay')
             ->with('profile')
             ->with('program:id,name','subprogram:id,name','category:id,name','status:id,name,type,color,others')
             ->with('education.school.school','education.course','education.level')
@@ -26,7 +29,7 @@ class ViewService
                     ->orWhere('spas_id','LIKE','%'.$keyword.'%');
                 });
             })
-            ->whereHas('address',function ($query) use ($filter) {
+            ->whereHas('addresses',function ($query) use ($filter) {
                 if(!empty($filter)){
                     (property_exists($filter, 'region')) ? $query->where('region_code',$filter->region)->where('is_permanent',1) : '';
                     (property_exists($filter, 'province')) ? $query->where('province_code',$filter->province)->where('is_permanent',1) : '';
@@ -54,6 +57,40 @@ class ViewService
         );
 
         return $data;
+    }
+
+    public function statistics(){
+        $statistics = [
+            Scholar::whereHas('status',function ($query) {
+                $query->where('type','ongoing');
+            })->count(),
+            Scholar::whereHas('status',function ($query) {
+                $query->where('name','Graduated');
+            })->count(),
+            Scholar::count()
+        ];
+
+        $types = [
+            Scholar::where('is_undergrad',1)->count(),
+            Scholar::where('is_undergrad',0)->count(),
+        ];
+
+        $scholar = Scholar::where('is_synced',0)->count();
+        $profile = ScholarProfile::where('is_synced',0)->count();
+        $address = ScholarAddress::where('is_synced',0)->count();
+        $education = ScholarEducation::where('is_synced',0)->count();
+        $total = $scholar + $profile + $address + $education;
+
+        $array = [
+            'total' => Scholar::count(),
+            'ongoing' =>  Scholar::whereHas('status',function ($query) {
+                $query->where('type','ongoing');
+            })->count(),
+            'statistics' => $statistics,
+            'types' => $types,
+            'sync_no' => $total
+        ];
+        return $array;
     }
 
     public function api($request){

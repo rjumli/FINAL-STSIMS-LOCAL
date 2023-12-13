@@ -30,14 +30,29 @@ class ScholarProfile extends Model
         return $this->belongsTo('App\Models\Scholar', 'scholar_id', 'id');
     }
 
-    public function getSexAttribute($value)
+    public function getFirstnameAttribute($value)
     {
-        switch ($value)
-		{
-			case 'M': $sex='Male';break;
-			case 'F': $sex='Female';break;
-			default:$sex=NULL;break;
-		}
-        return $sex;
+        return ucwords(strtolower($value));
     }
+
+    public function getLastnameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function getMiddlenameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    // public function getSexAttribute($value)
+    // {
+    //     switch ($value)
+	// 	{
+	// 		case 'M': $sex='Male';break;
+	// 		case 'F': $sex='Female';break;
+	// 		default:$sex=NULL;break;
+	// 	}
+    //     return $sex;
+    // }
 }

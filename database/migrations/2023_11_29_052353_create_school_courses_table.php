@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('course_id')->unsigned()->index();
             $table->foreign('course_id')->references('id')->on('list_courses')->onDelete('cascade');
             $table->boolean('is_active')->default(1);
+            $table->boolean('is_synced')->default(0);
             $table->timestamps();
         });
     }

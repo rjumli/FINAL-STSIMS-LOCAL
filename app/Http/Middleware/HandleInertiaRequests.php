@@ -11,6 +11,7 @@ use App\Models\ListPrivilege;
 use App\Models\LocationRegion;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Http\Resources\Dropdown\ListResource;
 use App\Http\Resources\Dropdown\LocationResource;
 use App\Http\Resources\Staff\IndexResource as StaffResource;
 
@@ -54,7 +55,7 @@ class HandleInertiaRequests extends Middleware
                 'status' => session('status'),
             ],
             'regions' => LocationResource::collection(LocationRegion::all()),
-            'dropdowns' => ListDropdown::all(),
+            'dropdowns' => ListResource::collection(ListDropdown::all()),
             'programs' => ListProgram::all(),
             'statuses' => ListStatus::all(),
             'privileges' => ListPrivilege::all(),

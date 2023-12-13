@@ -24,13 +24,17 @@ class SchoolService
             foreach($schools as $data){
                 $school = (array)$data;
                 $campuses = array_splice($school,9);
+                $school['is_synced'] = 1;
                 $q = School::insertOrIgnore($school);
                 foreach($data->campuses as $campus)
                 {   
                     $lst1 = (array)$campus;
                     $lst = array_pop($lst1);
+                    $lst1['is_synced'] = 1;
                     $q = SchoolCampus::insertOrIgnore($lst1);
                     foreach($lst as $course){
+                        $course = (array)$course;
+                        $course['is_synced'] = 1;
                         $q = SchoolCourse::insertOrIgnore((array)$course);
                     }
                 } 

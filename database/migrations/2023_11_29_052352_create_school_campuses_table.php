@@ -35,6 +35,7 @@ return new class extends Migration
             $table->foreign('region_code')->references('code')->on('location_regions')->onDelete('cascade');
             $table->string('assigned_region')->constrained();
             $table->foreign('assigned_region')->references('code')->on('location_regions')->onDelete('cascade');
+            $table->boolean('is_synced')->default(0);
             $table->timestamps();
         });
     }

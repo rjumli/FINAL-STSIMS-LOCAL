@@ -41,12 +41,12 @@
                         <span data-key="t-students">Qualifiers</span>
                     </Link>
                 </li>     -->
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Scholars') }" href="/scholars">
                         <i class='ri-team-fill'></i>
                         <span data-key="t-students">Scholars</span>
                     </Link>
-                </li>     -->
+                </li>    
                 <!-- <li class="nav-item">
                     <Link class="nav-link menu-link" :class="{'active': $page.component.startsWith('Modules/Staffs') }" href="/staffs">
                         <i class='bx bx-user-circle' ></i>

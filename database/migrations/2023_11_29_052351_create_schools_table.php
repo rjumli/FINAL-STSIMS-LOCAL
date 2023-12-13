@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreign('class_id')->references('id')->on('list_dropdowns')->onDelete('cascade');
             $table->boolean('is_upsystem')->default(0);
             $table->boolean('is_active')->default(1);
+            $table->boolean('is_synced')->default(0);
             $table->timestamps();
         });
     }
