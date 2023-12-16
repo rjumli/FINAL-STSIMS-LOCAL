@@ -47,7 +47,7 @@
             </table>
         </div>
 
-        <hr class="text-muted"/>
+        <hr class="text-muted mt-n1"/>
 
         <ul class="list-group mb-4" style="cursor: pointer;">
             <li class="list-group-item fs-12" @click="print('awardees')"><i class="bx bxs-printer float-end fs-20 text-light align-middle me-2"></i><i class="bx fs-18 bxs-award text-warning align-middle me-2"></i>Graduates <span class="text-muted fs-11">(w/ Honor)</span> </li>

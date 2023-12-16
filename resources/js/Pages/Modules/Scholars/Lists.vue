@@ -3,7 +3,7 @@
         <b-col lg>
             <div class="input-group mb-1">
                 <span class="input-group-text"> <i class="ri-search-line search-icon"></i></span>
-                <input type="text" v-model="filter.keyword" placeholder="Search Scholar" class="form-control" style="width: 30%;">
+                <input type="text" v-model="filter.keyword" placeholder="Search Scholar" class="form-control" style="width: 50%;">
                 <!-- <select v-model="filter.program" @change="fetch()" class="form-select" id="inputGroupSelect01" style="width: 120px;">
                     <option :value="null" selected>Select Program</option>
                     <option :value="list.id" v-for="list in program_list" v-bind:key="list.id">{{list.name}}</option>
@@ -17,7 +17,7 @@
                     <option :value="null" selected>Select Status</option>
                     <option :value="list.id" v-for="list in status_list" v-bind:key="list.id">{{list.name}}</option>
                 </select> -->
-                <!-- <input type="text" v-model="filter.year" placeholder="Year Awarded" class="form-control" style="width: 100px;"> -->
+                <input type="text" v-model="filter.year" placeholder="Year Awarded" class="form-control" style="width: 30px;">
                 <span @click="refresh" class="input-group-text" v-b-tooltip.hover title="Refresh" style="cursor: pointer;"> 
                     <i class="bx bx-refresh search-icon"></i>
                 </span>
@@ -47,7 +47,7 @@
                 <tr v-for="(user,index) in lists" v-bind:key="index" :class="[(user.is_completed == 0) ? 'table-warnings' : '']">
                     <td>
                         <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
+                            <div class="flex-shrink-0 chat-user-img online user-own-img align-self-center me-n1 ms-n2">
                                 <img :src="currentUrl+'/imagess/avatars/'+user.profile.avatar" class="rounded-circle avatar-xs" alt="">
                                 <span class="user-status" :style="(user.profile.sex == 'Male') ? 'background-color: #5cb0e5;' : 'background-color: #e55c7f;'"></span>
                             </div>
@@ -68,7 +68,8 @@
                     </td>
                     <td class="text-end">
                         <!-- <b-button v-if="user.user == null" @click="authenticate(user)" variant="soft-primary" v-b-tooltip.hover title="Create Scholar Account" size="sm" class="edit-list me-1"><i class="ri-user-add-fill align-bottom"></i> </b-button> -->
-                        <b-button @click="openUpdate(user,'status',index)" variant="soft-warning" v-b-tooltip.hover title="Update Status" size="sm" class="remove-list me-1"><i class="ri-heart-fill align-bottom"></i></b-button>
+                        <b-button @click="openUpdate(user,'status',index)" variant="soft-warning" v-b-tooltip.hover title="Update Status" size="sm" class="remove-list me-1"><i class="ri-pencil-fill align-bottom"></i></b-button>
+                        <b-button variant="soft-info" v-b-tooltip.hover title="View Profile" size="sm" class="remove-list me-n2"><i class="ri-eye-fill align-bottom"></i></b-button>
                         <!-- <b-button v-if="user.account_no == null && user.status.type == 'Ongoing'" @click="showUpdate(user,'scholar',index)" variant="soft-danger" v-b-tooltip.hover title="Update Account No." size="sm" class="remove-list me-1"><i class="ri-bank-card-2-fill align-bottom"></i></b-button>
                         <b-button v-if="user.education.is_completed == 0" @click="showUpdate(user,'education',index)" variant="soft-danger" v-b-tooltip.hover title="Update Education" size="sm" class="remove-list me-1"><i class="ri-hotel-fill align-bottom"></i></b-button>
                         <b-button v-if="user.addresses[0].is_completed == 0" @click="showUpdate(user,'address',index)" variant="soft-danger" v-b-tooltip.hover title="Update Address" size="sm" class="remove-list me-1"><i class="ri-map-pin-fill align-bottom"></i></b-button>
@@ -109,6 +110,14 @@ export default {
             flag: '',
             index: ''
         }
+    },
+    watch: {
+        "filter.keyword"(newVal){
+            this.checkSearchStr(newVal)
+        },
+        "filter.year"(newVal){
+            this.checkSearchStr(newVal)
+        },
     },
     created(){
         this.fetch();
