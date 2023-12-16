@@ -69,7 +69,7 @@
                     <td class="text-end">
                         <!-- <b-button v-if="user.user == null" @click="authenticate(user)" variant="soft-primary" v-b-tooltip.hover title="Create Scholar Account" size="sm" class="edit-list me-1"><i class="ri-user-add-fill align-bottom"></i> </b-button> -->
                         <b-button @click="openUpdate(user,'status',index)" variant="soft-warning" v-b-tooltip.hover title="Update Status" size="sm" class="remove-list me-1"><i class="ri-pencil-fill align-bottom"></i></b-button>
-                        <b-button variant="soft-info" v-b-tooltip.hover title="View Profile" size="sm" class="remove-list me-n2"><i class="ri-eye-fill align-bottom"></i></b-button>
+                        <b-button @click="openView(user)" variant="soft-info" v-b-tooltip.hover title="View Profile" size="sm" class="remove-list me-n2"><i class="ri-eye-fill align-bottom"></i></b-button>
                         <!-- <b-button v-if="user.account_no == null && user.status.type == 'Ongoing'" @click="showUpdate(user,'scholar',index)" variant="soft-danger" v-b-tooltip.hover title="Update Account No." size="sm" class="remove-list me-1"><i class="ri-bank-card-2-fill align-bottom"></i></b-button>
                         <b-button v-if="user.education.is_completed == 0" @click="showUpdate(user,'education',index)" variant="soft-danger" v-b-tooltip.hover title="Update Education" size="sm" class="remove-list me-1"><i class="ri-hotel-fill align-bottom"></i></b-button>
                         <b-button v-if="user.addresses[0].is_completed == 0" @click="showUpdate(user,'address',index)" variant="soft-danger" v-b-tooltip.hover title="Update Address" size="sm" class="remove-list me-1"><i class="ri-map-pin-fill align-bottom"></i></b-button>
@@ -81,15 +81,17 @@
         </table>
         <Pagination class="ms-2 me-2" v-if="meta" @fetch="fetch" :lists="lists.length" :links="links" :pagination="meta" />
     </div>
+    <View ref="view"/>
     <Create ref="create"/>
     <Update ref="update"/>
 </template>
 <script>
+import View from './Modals/Buttons/View.vue';
 import Update from './Modals/Buttons/Update.vue';
 import Create from './Modals/Buttons/Create.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components : { Pagination, Create, Update },
+    components : { Pagination, Create, Update, View },
     data(){
         return {
             currentUrl: window.location.origin,
@@ -155,6 +157,9 @@ export default {
                 this.links = response.data.links;
             })
             .catch(err => console.log(err));
+        },
+        openView(data){
+            this.$refs.view.show(data);
         },
         openCreate(){
             this.$refs.create.show();

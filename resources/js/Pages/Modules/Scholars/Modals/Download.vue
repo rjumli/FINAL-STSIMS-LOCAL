@@ -21,7 +21,9 @@
                                     <p v-else class="text-muted">Scholars was downloaded from central server.</p>
                                     
                                     <span v-if="isLoading"><i class='bx bx-loader-circle bx-spin mt-2'></i><span class="text-muted ms-1 mt-n4">Loading ... </span></span>
-                                    
+                                 
+                                    <div class="alert alert-danger mb-xl-0" role="alert" v-if="oops"><strong>Something is wrong!</strong> Contact Administrator! <!----></div>
+    
                                     <div class="row g-0 text-center" v-if="result">
                                         <div class="col-sm-4">
                                             <div class="p-3 border border-dashed border-start-0">
@@ -69,11 +71,13 @@ export default {
             duplicate: [],
             isLoading: false,
             result: false,
-            hide2: false
+            hide2: false,
+            oops: false
         }
     },
     methods : {
         show(){
+            this.oops = false;
             this.hide2 = false;
             this.showModal = true;
         },
@@ -98,7 +102,11 @@ export default {
                 this.duplicate = response.data.duplicate;
                 this.$emit('info',true);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                this.isLoading = false;
+                this.oops = true;
+                console.log(err)
+            });
         },
         hide(){
             this.success = [];
