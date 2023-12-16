@@ -35,7 +35,7 @@
             <i @click="showModal=false" class="ri-close-circle-fill float-end" style="cursor:pointer; font-size: 40px; margin-top: -37px; margin-bottom: -20px;"></i>
         </template>
         <div class="row">
-            <div class="col-md-3 mt-n3" >
+            <div class="col-md-3 mt-n3">
                 <table class="table table-bordered">
                     <tbody>
                         <tr style="border-top: none;">
@@ -209,6 +209,84 @@
                         <hr class="text-muted"/>
                     </div>
                 </div> -->
+            </div>
+            <div class="col-md-9 mt-n2" >
+                <div class="row mb-4">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="p-2 border border-dashed rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-2">
+                                    <div class="avatar-title rounded bg-transparent text-primary fs-24"><i
+                                            class="ri-file-copy-2-fill"></i></div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fs-11 mb-1">Enrollment Status :</p>
+                                    <h5 v-if="is_enrolled" class="fs-13 text-success mb-0">Enrolled</h5>
+                                    <h5 v-else class="fs-13 text-warning mb-0">Not Enrolled</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="p-2 border border-dashed rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-2">
+                                    <div class="avatar-title rounded bg-transparent text-primary fs-24"><i
+                                            class="ri-money-dollar-circle-fill"></i></div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fs-11 mb-1">Financial Status :</p>
+                                    <h5 class="fs-13 mb-0">Continued</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="p-2 border border-dashed rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-2">
+                                    <div class="avatar-title rounded bg-transparent text-primary fs-24"><i class="ri-stack-fill"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fs-11 mb-1">GWA :</p>
+                                    <h5 class="fs-13 mb-0">1.2</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="p-2 border border-dashed rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-2">
+                                    <div class="avatar-title rounded bg-transparent text-primary fs-24">
+                                        <i class="ri-wallet-3-fill"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted fs-11 mb-1">Total Received :</p>
+                                    <h5 class="fs-13 mb-0">1231</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 mt-n2">
+                    <BTabs nav-class="nav-pills nav-custom nav-custom-light" pills small>
+                        <BTab title="Enrollments">
+                            
+                        </BTab>
+                        <BTab title="Tracers">
+                        
+                        </BTab>  
+                        <BTab title="Courses">
+                            
+                        </BTab>
+                        <BTab title="Overview">
+                            
+                        </BTab>
+                    </BTabs>
+                </div>
             </div>
         </div>
     </b-modal>
