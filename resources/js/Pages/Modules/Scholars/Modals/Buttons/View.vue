@@ -276,10 +276,10 @@
                         <BTab title="Enrollments">
                             
                         </BTab>
-                        <BTab title="Tracers">
+                        <BTab title="Financial Benefits">
                         
                         </BTab>  
-                        <BTab title="Courses">
+                        <BTab title="Tracers">
                             
                         </BTab>
                         <BTab title="Overview">
